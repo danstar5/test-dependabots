@@ -6,5 +6,20 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "all"
+    # - dependency-name: 'lodash'
     assignees:
       - "Daniely2564"
+    ignore:
+      - dependency-name: "express"
+        # For Express, ignore all updates for version 4 and 5
+        versions: ["4.x", "5.x"]
+      - dependency-name: "lodash"
+        # For AWS SDK, ignore all patch updates
+      - dependency-name: "aws-sdk"
+        update-types: ["version-update:semver-patch"]
+    labels: #specify labels for the PR
+      - "npm"
+      - "dependencies"
+    # Associate pull requests with milestone "4"
+    milestone: 4
+    open-pull-requests-limit: 3 # by default max is 5
