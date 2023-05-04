@@ -1,5 +1,9 @@
 # Dependabot
 
+## Manually Trigger
+
+Go to Repo -> `Insights` -> `Dependency Graph` -> `Dependabot` -> Trigger dpendabot
+
 ## Configuration
 
 [Documentation Link](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#allow)
@@ -247,4 +251,95 @@ updates:
     # Add assignees
     assignees:
       - "octocat"
+```
+
+#### commit-message
+
+```yml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      # Prefix all commit messages with "npm: "
+      prefix: "npm"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      # Prefix all commit messages with "[docker] " (no colon, but a trailing whitespace)
+      prefix: "[docker] "
+```
+
+#### ignore
+
+By default all dependencies that are explicitly defined in a manifest are kept up to date by Dependabot version updates. So a dependency that is matched by both an allow and an ignore will be ignored.
+
+Options:
+
+- dependency-name: use to ignore updates for dependencies with matching names, optionally using \* to match zero or more characters.
+- versions: use to ignore specific versions or ranges of versions. If
+- update-types: use to ignore types of updates, such as semver major, minor, or patch updates on version updates
+
+```yml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "express"
+        # For Express, ignore all updates for version 4 and 5
+        versions: ["4.x", "5.x"]
+        # For Lodash, ignore all updates
+      - dependency-name: "lodash"
+        # For AWS SDK, ignore all patch updates
+      - dependency-name: "aws-sdk"
+        update-types: ["version-update:semver-patch"]
+```
+
+#### labels
+
+By default, Dependabot raises all pull requests with the dependencies label. If more than one package manager is defined, Dependabot includes an additional label on each pull request.
+
+Use labels to override the default labels and specify alternative labels for all pull requests raised for a package manager.
+
+```yml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Specify labels for npm pull requests
+    labels:
+      - "npm"
+      - "dependencies"
+```
+
+#### open-pull-requests-limit
+
+By default, Dependabot opens a maximum of five pull requests for version updates. Use open-pull-requests-limit to change this limit.
+
+```yml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Disable version updates for npm dependencies
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Allow up to 10 open pull requests for pip dependencies
+    open-pull-requests-limit: 10
 ```
