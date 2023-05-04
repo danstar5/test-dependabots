@@ -23,3 +23,5 @@ updates:
     # Associate pull requests with milestone "4"
     milestone: 4
     open-pull-requests-limit: 3 # by default max is 5
+    commit-message:
+      prefix: "[dependabot module-update] "
