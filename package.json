@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "lodash": "^3.10.1",
-    "mongoose": "^7.1.0"
+    "mongoose": "^7.0.0"
   }
 }
